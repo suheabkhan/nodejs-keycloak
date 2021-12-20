@@ -15,7 +15,7 @@ export class AuthGuardKeycloak extends KeycloakAuthGuard {
         state: RouterStateSnapshot
     ): Promise<boolean> {
     // Force the user to log in if currently unauthenticated.
-        if (!localStorage.getItem("access_token")) {
+        if (!this.authenticated) {
             await this.keycloak.login({
                 redirectUri: window.location.origin + state.url,
             });
