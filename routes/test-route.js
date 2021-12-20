@@ -6,11 +6,11 @@ const properties = require("../app");
 const jwt = require("jsonwebtoken");
 const KeycloakConnect = require("keycloak-connect");
 const keycloak = new KeycloakConnect({}, properties.kcConfig);
-router.get("/getSampleMessage", keycloak.protect("realm:admin_user"), isAuth, (req, res) => {
+router.get("/getSampleMessage", (req, res) => {
   console.log("inside");
   res.send("Hello suheab!!!");
 });
-router.get("/login", (req, res) => {
+router.post("/login", (req, res) => {
   console.log("Hai");
   console.log(req.body.login, req.body.password);
   KeyCloak.loginUser(req.body.login, req.body.password, req, res)
@@ -21,9 +21,11 @@ router.get("/login", (req, res) => {
       //   console.log(grant.access_token.token);
       //   console.log(grant.access_token.content.sub);
       //   console.log(grant.access_token.content.name);
-      //   console.log(grant.access_token.content.email);
+       
       const output = {
         accessToken: grant.access_token.token,
+        refreshToken:grant.refresh_token.token,
+        idToken:grant.id_token.token,
         id: grant.access_token.content.sub,
         name: grant.access_token.content.name,
         email: grant.access_token.content.email,

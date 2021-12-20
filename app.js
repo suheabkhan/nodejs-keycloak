@@ -4,10 +4,10 @@ var Keycloak = require("keycloak-connect");
 const testRoutes = require("./routes/test-route");
 
 let kcConfig = {
-  clientId: "angular-la",
+  clientId: "angular-test",
   bearerOnly: true,
   serverUrl: "http://localhost:8080/auth",
-  realm: "LA",
+  realm: "test",
   //realmPublicKey: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqsE6+6pzqQ5Nxvdxkjv39OQ1MQNW+4TVFqZ5nYZYKt3bt2qMmlp2Mn0Hx8PvSTwwcCkgwbciUfhD3cGPbNB22aTUxK5o8/8AEPZw8oa+6fOO8Rvq7gMf6YHDooGJO90YmqcyPXhJNpVREm4iqzgqxQLDgoMkTKR1LjvNRaMafqrTDUGumTBZeTsV3Ij12GioC9JQFC5Bv6lWEVuUA7ElrNjXszPfGLTtNeY8e20iQ5vIQhpeFSU0+ICjDZt2HtNf7tyXsOl7RWqi/HOa2tlRTVWS8AsJJy4q/jJPLGzazVfNkpOie493ZUShR9oCKHRvejjt1HmYO9HAsnTHdXmb3wIDAQAB",
 };
 
@@ -24,7 +24,7 @@ const Express = require("express");
 const path = require("path");
 const hogan = require("hogan-express");
 const cookieParser = require("cookie-parser");
-
+const cors= require('cors');
 const Permissions = require("./lib/permissions");
 const KeyCloakService = require("./lib/keyCloakService");
 const AdminClient = require("./lib/adminClient");
@@ -47,7 +47,7 @@ const PERMISSIONS = new Permissions([["/customers", "post", "res:customer", "sco
   "/test/getSampleMessage",
   "/checkPermission"
 );
-let keyCloak = new KeyCloakService(PERMISSIONS);
+ let keyCloak = new KeyCloakService(PERMISSIONS);
 const keycloak = new Keycloak({}, kcConfig);
 let app = Express();
 const router = Express.Router();
@@ -55,7 +55,13 @@ const router = Express.Router();
 app.set("view engine", "html");
 app.engine("html", hogan);
 app.use(keycloak.middleware());
+const corsOptions = {
+  origin: ["http://localhost:4200"],
+  optionSuccessStatus: 200,
+};
+
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
 //app.use("/test", keycloak.protect("realm:admin_user"), isAuth, testRoutes);
 app.use("/test", testRoutes);
 // let adminClient = new AdminClient({

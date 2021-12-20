@@ -1,11 +1,11 @@
 {
-  "realm": "LA",
+  "realm": "test",
   "auth-server-url": "http://localhost:8080/auth/",
   "ssl-required": "external",
-  "resource": "angular-la",
+  "resource": "angular-test",
   "verify-token-audience": false,
   "credentials": {
-    "secret": "7333450c-b4f8-43e6-9c2c-e5c71bd9c416"
+    "secret": "3e57462b-3533-4d44-8163-5a89bee81297"
   },
   "confidential-port": 0,
   "policy-enforcer": {}
