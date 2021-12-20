@@ -34,20 +34,24 @@ const bodyParser = require("body-parser");
 /**
  * URL patterns for permissions. URL patterns documentation https://github.com/snd/url-pattern.
  */
-const PERMISSIONS = new Permissions([["/customers", "post", "res:customer", "scopes:create"]]).notProtect(
-  "/favicon.ico", // just to not log requests
-  "/login(*)",
-  "/accessDenied",
-  "/adminClient",
+const corsOptions = {
+  origin: ["http://localhost:4200"],
+  optionSuccessStatus: 200,
+};
+// const PERMISSIONS = new Permissions([["/customers", "post", "res:customer", "scopes:create"]]).notProtect(
+//   "/favicon.ico", // just to not log requests
+//   "/login(*)",
+//   "/accessDenied",
+//   "/adminClient",
 
-  /**
-   * It is protected because of we need an access token. Better to move it to the protected area.
-   */
-  "/permissions",
-  "/test/getSampleMessage",
-  "/checkPermission"
-);
-let keyCloak = new KeyCloakService(PERMISSIONS);
+//   /**
+//    * It is protected because of we need an access token. Better to move it to the protected area.
+//    */
+//   "/permissions",
+//   "/test/getSampleMessage",
+//   "/checkPermission"
+// );
+// let keyCloak = new KeyCloakService(PERMISSIONS);
 const keycloak = new Keycloak({}, kcConfig);
 let app = Express();
 const router = Express.Router();
@@ -55,10 +59,6 @@ const router = Express.Router();
 app.set("view engine", "html");
 app.engine("html", hogan);
 app.use(keycloak.middleware());
-const corsOptions = {
-  origin: ["http://localhost:4200/"],
-  optionSuccessStatus: 200,
-};
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
@@ -79,8 +79,8 @@ const server = app.listen(3000, function () {
   const port = server.address().port;
   console.log("App listening at port %s", port);
 });
-const logoutUrl = "/logout";
-app.use(keyCloak.middleware(logoutUrl));
+// const logoutUrl = "/logout";
+// app.use(keyCloak.middleware(logoutUrl));
 // function configureMiddleware() {
 //   app.use(Express.static(path.join(__dirname, "static")));
 

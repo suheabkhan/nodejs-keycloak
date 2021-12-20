@@ -8,18 +8,19 @@ import { environment } from 'src/environments/environment';
 export class TestService {
   constructor(private http: HttpClient) {}
 
-  getMessageForAdmin() {
+  getMessageForAdmin(): any {
     return new Promise((resolve, reject) => {
-      this.http.get(environment.apiBaseUrl + 'test/getSampleMessage').subscribe(
-        (data) => {
-          console.log(data);
-          resolve(data);
-        },
-        (err) => {
-          console.log(err);
-          reject(err);
-        }
-      );
+      return this.http
+        .get<any>('http://localhost:3000/test/getSampleMessage')
+        .subscribe(
+          (data) => {
+            console.log('data is', data);
+            resolve(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     });
   }
 }

@@ -8,9 +8,9 @@ import { TestService } from '../service/test.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private testService: TestService) {}
-  ngOnInit(): void {
+  async ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.testService.getMessageForAdmin();
+    console.log(await (<any>this.testService.getMessageForAdmin()));
   }
 }

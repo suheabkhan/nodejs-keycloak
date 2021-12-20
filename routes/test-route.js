@@ -6,9 +6,13 @@ const properties = require("../app");
 const jwt = require("jsonwebtoken");
 const KeycloakConnect = require("keycloak-connect");
 const keycloak = new KeycloakConnect({}, properties.kcConfig);
-router.get("/getSampleMessage", keycloak.protect("realm:admin_user2"), (req, res) => {
+router.get("/getSampleMessage", keycloak.protect("realm:admin_user"), (req, res) => {
   console.log("inside");
-  res.send("Hello suheab!!!");
+  const output = {
+    name: "suheab",
+    email: "khansuheab@gmail.com",
+  };
+  res.status(200).send(output);
 });
 router.post("/login", (req, res) => {
   console.log("Hai");
