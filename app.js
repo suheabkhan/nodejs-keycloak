@@ -24,7 +24,7 @@ const Express = require("express");
 const path = require("path");
 const hogan = require("hogan-express");
 const cookieParser = require("cookie-parser");
-const cors= require('cors');
+const cors = require("cors");
 const Permissions = require("./lib/permissions");
 const KeyCloakService = require("./lib/keyCloakService");
 const AdminClient = require("./lib/adminClient");
@@ -47,7 +47,7 @@ const PERMISSIONS = new Permissions([["/customers", "post", "res:customer", "sco
   "/test/getSampleMessage",
   "/checkPermission"
 );
- let keyCloak = new KeyCloakService(PERMISSIONS);
+let keyCloak = new KeyCloakService(PERMISSIONS);
 const keycloak = new Keycloak({}, kcConfig);
 let app = Express();
 const router = Express.Router();
@@ -56,7 +56,7 @@ app.set("view engine", "html");
 app.engine("html", hogan);
 app.use(keycloak.middleware());
 const corsOptions = {
-  origin: ["http://localhost:4200"],
+  origin: ["http://localhost:4200/"],
   optionSuccessStatus: 200,
 };
 
